@@ -10,15 +10,23 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.paint.Color;
 
 public class WarWidget extends MiniCivWidget {
+    private static final double LOSS_DURATION = 10.0;
+    private static final double LOSS_FADE = 2.0;
+
+    private int lossCounter;
+
     private Label invasionEnvyLabel;
 
     private ProgressButton warMenace;
 
     private Label protectedLabel;
 
+    private Label loss;
+
     public WarWidget(MiniCiv parent) {
 	super(parent);
 	initializeComponents();
+	lossCounter = 0;
     }
 
     @Override
@@ -30,6 +38,13 @@ public class WarWidget extends MiniCivWidget {
 	}
 	protectedLabel.setText("" + parent.getPopulation().getInhabitants() + "/" + getProtected());
 	protectedLabel.setTextFill(getProtected() < parent.getPopulation().getInhabitants() ? Color.RED : Color.BLACK);
+
+	lossCounter--;
+	loss.setOpacity(lossCounter / (1000 * LOSS_FADE));
+	if (lossCounter == 0) {
+	    loss.setText("");
+	}
+
     }
 
     public double invasionEnvy() {
@@ -71,16 +86,56 @@ public class WarWidget extends MiniCivWidget {
 	protectedLabel = new Label("0/0");
 	protectedLabel.setTooltip(new Tooltip("(guerriers * tours)"));
 	add(protectedLabel, 1, 3);
+
+	loss = new Label("Pertes");
+	loss.getStyleClass().add("alert");
+	add(loss, 0, 4, 2, 1);
     }
 
     private void attack() {
+	StringBuilder str = new StringBuilder();
+	str.append("Pertes dues à la guerre :");
+	str.append(System.lineSeparator());
 	if (getProtected() < parent.getPopulation().getInhabitants()) {
 	    parent.getWork().emptyAll();
-	    parent.getPopulation().kill(0.5);
-	    parent.getBuilding().destroyHouses(1);
-	    parent.getBuilding().destroyTowers(1);
+	    str.append("Tous les métiers");
+	    str.append(System.lineSeparator());
+
+	    int populationLoss = parent.getPopulation().kill(0.5);
+	    if (populationLoss > 0) {
+		str.append(populationLoss).append(" habitants");
+		str.append(System.lineSeparator());
+	    }
+
+	    int houseLoss = parent.getBuilding().destroyHouses(1);
+	    if (houseLoss > 0) {
+		str.append(houseLoss).append(" maison");
+		str.append(System.lineSeparator());
+	    }
+
+	    int towerLoss = parent.getBuilding().destroyTowers(1);
+	    if (towerLoss > 0) {
+		str.append(towerLoss).append(" tour");
+		str.append(System.lineSeparator());
+	    }
+
 	    parent.getLaboratory().forgetAllResearches();
+	    str.append("Toutes les recherches");
+	    str.append(System.lineSeparator());
 	}
-	parent.getResources().destroyAllResources(0.1);
+
+	int woodLoss = parent.getResources().destroyWood(0.1);
+	if (woodLoss > 0) {
+	    str.append(woodLoss).append(" bois");
+	    str.append(System.lineSeparator());
+	}
+
+	int stoneLoss = parent.getResources().destroyStone(0.1);
+	if (stoneLoss > 0) {
+	    str.append(stoneLoss).append(" pierres");
+	}
+
+	lossCounter = (int) (1000 * (LOSS_DURATION + LOSS_FADE));
+	loss.setText(str.toString());
     }
 }

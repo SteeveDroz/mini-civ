@@ -107,4 +107,22 @@ public class ResourcesWidget extends MiniCivWidget {
 	wood *= 1 - percentage;
 	stone *= 1 - percentage;
     }
+
+    public int destroyWood(double percentage) {
+	if (wood == 0) {
+	    return 0;
+	}
+	int loss = (int) (wood * percentage + 1);
+	wood -= loss;
+	return loss;
+    }
+
+    public int destroyStone(double percentage) {
+	if (stone == 0) {
+	    return 0;
+	}
+	int loss = (int) (stone * percentage + 1);
+	stone -= loss;
+	return loss;
+    }
 }

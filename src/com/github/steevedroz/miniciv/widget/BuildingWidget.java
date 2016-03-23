@@ -101,11 +101,15 @@ public class BuildingWidget extends MiniCivWidget {
 	return parent.getResources().consumeStone(nextTowerPrice());
     }
 
-    public void destroyHouses(int amount) {
-	houses = Math.max(0, houses - amount);
+    public int destroyHouses(int amount) {
+	int afterLoss = houses - amount;
+	houses = Math.max(0, afterLoss);
+	return afterLoss > 0 ? amount : 0;
     }
 
-    public void destroyTowers(int amount) {
-	towers = Math.max(0, towers - amount);
+    public int destroyTowers(int amount) {
+	int afterLoss = towers - amount;
+	towers = Math.max(0, afterLoss);
+	return afterLoss > 0 ? amount : 0;
     }
 }

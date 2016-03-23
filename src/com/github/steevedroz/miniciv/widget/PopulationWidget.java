@@ -59,8 +59,13 @@ public class PopulationWidget extends MiniCivWidget {
 	return inhabitants;
     }
 
-    public void kill(double percentage) {
-	inhabitants *= 1 - percentage;
+    public int kill(double percentage) {
+	if (inhabitants == 0) {
+	    return 0;
+	}
+	int loss = (int) (inhabitants * percentage + 1);
+	inhabitants -= loss;
+	return loss;
     }
 
     public void kill(int amount) {
