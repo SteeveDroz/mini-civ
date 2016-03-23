@@ -26,7 +26,7 @@ public class MiniCiv extends Scene {
     private Timer timer;
 
     public MiniCiv(Stage stage) {
-	super(new FlowPane(), 800, 600);
+	super(new FlowPane(), 800, 700);
 	stage.setTitle("MiniCiv");
 	InitializeComponents();
 

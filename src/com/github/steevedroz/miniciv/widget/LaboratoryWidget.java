@@ -12,6 +12,7 @@ import com.github.steevedroz.miniciv.component.Research;
 import com.github.steevedroz.miniciv.component.Type;
 
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.FlowPane;
 
 public class LaboratoryWidget extends MiniCivWidget {
@@ -90,7 +91,12 @@ public class LaboratoryWidget extends MiniCivWidget {
 	});
 
 	FlowPane flow = new FlowPane(researchesList.toArray(new Research[0]));
-	add(flow, 0, 2, 2, 1);
+
+	ScrollPane scroll = new ScrollPane();
+	scroll.setMaxHeight(300);
+	scroll.setPrefHeight(300);
+	scroll.setContent(flow);
+	add(scroll, 0, 2, 2, 1);
     }
 
     public void discover(Research research) {
