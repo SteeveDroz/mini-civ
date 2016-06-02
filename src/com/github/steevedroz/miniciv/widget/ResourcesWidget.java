@@ -125,4 +125,12 @@ public class ResourcesWidget extends MiniCivWidget {
 	stone -= loss;
 	return loss;
     }
+
+    public void setWood(int wood) {
+	this.wood = wood;
+    }
+
+    public void setStone(int stone) {
+	this.stone = stone;
+    }
 }

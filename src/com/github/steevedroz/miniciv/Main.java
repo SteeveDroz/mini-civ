@@ -6,6 +6,8 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 public class Main extends Application {
+    public static final String VERSION = "v0.1-alpha";
+
     @Override
     public void start(Stage primaryStage) {
 	try {
@@ -18,6 +20,7 @@ public class Main extends Application {
 		    System.exit(0);
 		}
 	    });
+
 	    primaryStage.show();
 	} catch (Exception e) {
 	    e.printStackTrace();

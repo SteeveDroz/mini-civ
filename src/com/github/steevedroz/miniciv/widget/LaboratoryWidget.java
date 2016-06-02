@@ -51,6 +51,10 @@ public class LaboratoryWidget extends MiniCivWidget {
 	return researchPoints;
     }
 
+    public void setResearchPoints(double researchPoints) {
+	this.researchPoints = researchPoints;
+    }
+
     private void consumeResearchPoints(double amount) {
 	researchPoints -= amount;
     }

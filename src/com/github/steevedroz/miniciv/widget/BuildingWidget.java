@@ -112,4 +112,12 @@ public class BuildingWidget extends MiniCivWidget {
 	towers = Math.max(0, afterLoss);
 	return afterLoss > 0 ? amount : 0;
     }
+
+    public void setHouses(int houses) {
+	this.houses = houses;
+    }
+
+    public void setTowers(int towers) {
+	this.towers = towers;
+    }
 }

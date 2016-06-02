@@ -97,4 +97,24 @@ public class WorkWidget extends MiniCivWidget {
     public int getFree() {
 	return parent.getPopulation().getInhabitants() - totalWorkers();
     }
+
+    public void setWoodcutters(int woodcutters) {
+	this.woodcutters.setWorkers(woodcutters);
+    }
+
+    public void setMiners(int miners) {
+	this.woodcutters.setWorkers(miners);
+    }
+
+    public void setAmbassadors(int ambassadors) {
+	this.woodcutters.setWorkers(ambassadors);
+    }
+
+    public void setWarriors(int warriors) {
+	this.woodcutters.setWorkers(warriors);
+    }
+
+    public void setInventors(int inventors) {
+	this.woodcutters.setWorkers(inventors);
+    }
 }

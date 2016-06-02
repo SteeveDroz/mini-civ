@@ -1,8 +1,12 @@
 package com.github.steevedroz.miniciv;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.github.steevedroz.miniciv.loader.Loader;
 import com.github.steevedroz.miniciv.widget.BuildingWidget;
 import com.github.steevedroz.miniciv.widget.LaboratoryWidget;
 import com.github.steevedroz.miniciv.widget.PopulationWidget;
@@ -11,8 +15,19 @@ import com.github.steevedroz.miniciv.widget.WarWidget;
 import com.github.steevedroz.miniciv.widget.WorkWidget;
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
 public class MiniCiv extends Scene {
@@ -23,12 +38,14 @@ public class MiniCiv extends Scene {
     private WarWidget war;
     private LaboratoryWidget laboratory;
 
+    private FileChooser fileChooser;
     private Timer timer;
 
     public MiniCiv(Stage stage) {
-	super(new FlowPane(), 800, 700);
+	super(new BorderPane(), 800, 700);
 	stage.setTitle("MiniCiv");
-	InitializeComponents();
+	initializeComponents();
+	initializeMenu();
 
 	this.timer = new Timer();
 	this.timer.schedule(new TimerTask() {
@@ -77,8 +94,8 @@ public class MiniCiv extends Scene {
 	return laboratory;
     }
 
-    private void InitializeComponents() {
-	FlowPane flow = (FlowPane) getRoot();
+    private void initializeComponents() {
+	FlowPane flow = new FlowPane();
 
 	population = new PopulationWidget(this);
 	population.getStyleClass().add("widget");
@@ -103,5 +120,78 @@ public class MiniCiv extends Scene {
 	laboratory = new LaboratoryWidget(this);
 	laboratory.getStyleClass().add("widget");
 	flow.getChildren().add(laboratory);
+
+	((BorderPane) getRoot()).setCenter(flow);
+    }
+
+    private void initializeMenu() {
+	MenuBar menu = new MenuBar();
+
+	Menu fileMenu = new Menu("Fichier");
+	menu.getMenus().add(fileMenu);
+
+	MenuItem save = new MenuItem("Sauvegarder");
+	save.setOnAction(new EventHandler<ActionEvent>() {
+	    @Override
+	    public void handle(ActionEvent event) {
+		save();
+	    }
+	});
+
+	MenuItem load = new MenuItem("Ouvrir");
+	load.setOnAction(new EventHandler<ActionEvent>() {
+	    @Override
+	    public void handle(ActionEvent event) {
+		load();
+	    }
+	});
+
+	fileMenu.getItems().addAll(save, load);
+
+	((BorderPane) getRoot()).setTop(menu);
+
+	fileChooser = new FileChooser();
+	fileChooser.getExtensionFilters().add(new ExtensionFilter("Fichiers MiniCiv (*.miniciv)", "*.miniciv"));
+	fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+    }
+
+    private void save() {
+	fileChooser.setTitle("Enregistrer un fichier MiniCiv");
+	File file=fileChooser.showSaveDialog(getWindow());
+	if(file!=null){
+	    try{
+		
+	    }
+	}
+    }
+
+    private void load() {
+	fileChooser.setTitle("Ouvrir un fichier MiniCiv");
+	File file = fileChooser.showOpenDialog(getWindow());
+	if (file != null) {
+	    try {
+		List<String> data = Files.readAllLines(file.toPath());
+		Version version = new Version(data.get(0));
+		Loader loader = Loader.getLoader(version);
+		loader.load(this, data);
+	    } catch (FileFormatException e) {
+		new Alert(AlertType.ERROR,
+			"Le fichier que vous essayez de charger n'est pas reconnu par cette version de MiniCiv. Il s'agit d'un fichier corrompu, d'un fichier fait à la main ou d'une version soit antérieure, soit bien plus ancienne que la version actuelle du logiciel ("
+				+ Main.VERSION + ").");
+	    } catch (Exception e) {
+		new Alert(AlertType.ERROR,
+			"Une erreur inconnue s'est produite, votre action n'a pas pu être menée à terme. MErci de réessayer.",
+			ButtonType.OK).showAndWait();
+	    }
+	}
+    }
+
+    private void loadData(List<String> data) throws FileFormatException {
+	if (data.size() == 0) {
+	    throw new FileFormatException();
+	}
+	Version version = new Version(data.get(0));
+	Loader loader = Loader.getLoader(version);
+	loader.load(this, data);
     }
 }
