@@ -158,6 +158,10 @@ public class MiniCiv extends Scene {
 	File file = fileChooser.showSaveDialog(getWindow());
 	if (file != null) {
 	    try {
+		if (!file.getName().endsWith(".miniciv")) {
+		    // XXX Error: if file exists, no prompt is shown
+		    file = new File(file.getAbsolutePath() + ".miniciv");
+		}
 		Loader loader = Loader.getLoader(new Version(Main.VERSION));
 		List<String> data = loader.save(this);
 		Files.write(file.toPath(), data);
@@ -181,7 +185,7 @@ public class MiniCiv extends Scene {
 	    } catch (FileFormatException e) {
 		new Alert(AlertType.ERROR,
 			"Le fichier que vous essayez de charger n'est pas reconnu par cette version de MiniCiv. Il s'agit d'un fichier corrompu, d'un fichier fait à la main ou d'une version soit antérieure, soit bien plus ancienne que la version actuelle du logiciel ("
-				+ Main.VERSION + ").");
+				+ Main.VERSION + ").").showAndWait();
 	    } catch (Exception e) {
 		new Alert(AlertType.ERROR,
 			"Une erreur inconnue s'est produite, votre action n'a pas pu être menée à terme. Merci de réessayer.",

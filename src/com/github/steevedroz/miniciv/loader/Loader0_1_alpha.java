@@ -54,6 +54,8 @@ public class Loader0_1_alpha extends Loader {
 		    miniCiv.getLaboratory().discover(research);
 		} else if (key.equals("research_points")) {
 		    miniCiv.getLaboratory().setResearchPoints(Double.parseDouble(value));
+		} else {
+		    throw new Exception();
 		}
 	    } catch (Exception e) {
 		throw new FileFormatException();
