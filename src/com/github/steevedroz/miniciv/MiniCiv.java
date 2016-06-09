@@ -58,16 +58,13 @@ public class MiniCiv extends Scene {
     }
 
     public void updateAll() {
-	Platform.runLater(new Runnable() {
-	    @Override
-	    public void run() {
-		population.update();
-		building.update();
-		resources.update();
-		work.update();
-		war.update();
-		laboratory.update();
-	    }
+	Platform.runLater(() -> {
+	    population.update();
+	    building.update();
+	    resources.update();
+	    work.update();
+	    war.update();
+	    laboratory.update();
 	});
     }
 
