@@ -1,8 +1,5 @@
 package com.github.steevedroz.miniciv.component;
 
-import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
@@ -29,21 +26,11 @@ public class Worker extends GridPane {
 	remove = new Button("Licencier");
 
 	if (!automatic) {
-	    add.addEventHandler(ActionEvent.ACTION, new EventHandler<Event>() {
-		@Override
-		public void handle(Event event) {
-		    workers++;
-		}
-	    });
+	    add.setOnAction(event -> workers++);
 
 	    add(add, 2, 0);
 
-	    remove.addEventHandler(ActionEvent.ACTION, new EventHandler<Event>() {
-		@Override
-		public void handle(Event event) {
-		    workers--;
-		}
-	    });
+	    remove.setOnAction(event -> workers--);
 	    add(remove, 3, 0);
 	}
     }
@@ -64,6 +51,5 @@ public class Worker extends GridPane {
 
     public void setWorkers(int workers) {
 	this.workers = workers;
-	update(0);
     }
 }

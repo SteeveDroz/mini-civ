@@ -5,11 +5,19 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.github.steevedroz.miniciv.FileFormatException;
 import com.github.steevedroz.miniciv.MiniCiv;
+import com.github.steevedroz.miniciv.Version;
+import com.github.steevedroz.miniciv.component.Research;
+import com.github.steevedroz.miniciv.component.Research.State;
 
 public class Loader0_1_alpha extends Loader {
+    protected Loader0_1_alpha(Version version) {
+	super(version);
+    }
+
     @Override
-    public void load(MiniCiv miniCiv, List<String> data) {
+    public void load(MiniCiv miniCiv, List<String> data) throws FileFormatException {
 	data.remove(0);
 	Pattern pattern = Pattern.compile("^([a-z0-9_]+): *(.+)$");
 	for (String entry : data) {
@@ -38,11 +46,17 @@ public class Loader0_1_alpha extends Loader {
 		    miniCiv.getWork().setWarriors(Integer.parseInt(value));
 		} else if (key.equals("inventors")) {
 		    miniCiv.getWork().setInventors(Integer.parseInt(value));
+		} else if (key.equals("research")) {
+		    String[] elements = value.split(", *");
+		    Research research = miniCiv.getLaboratory().getResearch(elements[0],
+			    Double.parseDouble(elements[1]));
+		    research.setState(State.RESEARCHED);
+		    miniCiv.getLaboratory().discover(research);
 		} else if (key.equals("research_points")) {
-		    miniCiv.getLaboratory().setResearchPoints(Integer.parseInt(value));
+		    miniCiv.getLaboratory().setResearchPoints(Double.parseDouble(value));
 		}
 	    } catch (Exception e) {
-		continue;
+		throw new FileFormatException();
 	    }
 	}
     }
@@ -61,6 +75,12 @@ public class Loader0_1_alpha extends Loader {
 	data.add("ambassadors: " + miniCiv.getWork().getAmbassadors());
 	data.add("warriors: " + miniCiv.getWork().getWarriors());
 	data.add("inventors: " + miniCiv.getWork().getInventors());
+	List<Research> researches = miniCiv.getLaboratory().getResearches();
+	for (Research research : researches) {
+	    if (research.getState().equals(State.RESEARCHED)) {
+		data.add("research: " + research.getType().name() + ", " + research.getPrice());
+	    }
+	}
 	data.add("research_points: " + miniCiv.getLaboratory().getResearchPoints());
 	return data;
     }

@@ -51,6 +51,10 @@ public class LaboratoryWidget extends MiniCivWidget {
 	return researchPoints;
     }
 
+    public List<Research> getResearches() {
+	return researches;
+    }
+
     public void setResearchPoints(double researchPoints) {
 	this.researchPoints = researchPoints;
     }
@@ -106,6 +110,16 @@ public class LaboratoryWidget extends MiniCivWidget {
     public void discover(Research research) {
 	consumeResearchPoints(research.getPrice());
 	upgrades.put(research.getType(), getUpgrade(research.getType()) * research.getUpgrade());
+    }
+
+    public Research getResearch(String type, double price) {
+	researches.sort((Research r1, Research r2) -> (int) (r1.getPrice() - r2.getPrice()));
+	for (Research research : researches) {
+	    if (research.getPrice() == price && research.getType().name().equals(type)) {
+		return research;
+	    }
+	}
+	return null;
     }
 
     public Double getUpgrade(Type type) {

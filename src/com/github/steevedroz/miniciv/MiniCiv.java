@@ -1,6 +1,7 @@
 package com.github.steevedroz.miniciv;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.Timer;
@@ -157,10 +158,16 @@ public class MiniCiv extends Scene {
 
     private void save() {
 	fileChooser.setTitle("Enregistrer un fichier MiniCiv");
-	File file=fileChooser.showSaveDialog(getWindow());
-	if(file!=null){
-	    try{
-		
+	File file = fileChooser.showSaveDialog(getWindow());
+	if (file != null) {
+	    try {
+		Loader loader = Loader.getLoader(new Version(Main.VERSION));
+		List<String> data = loader.save(this);
+		Files.write(file.toPath(), data);
+	    } catch (IOException e) {
+		new Alert(AlertType.ERROR,
+			"Une erreur inconnue s'est produite, votre action n'a pas pu être menée à terme. Merci de réessayer.",
+			ButtonType.OK).showAndWait();
 	    }
 	}
     }
@@ -180,18 +187,9 @@ public class MiniCiv extends Scene {
 				+ Main.VERSION + ").");
 	    } catch (Exception e) {
 		new Alert(AlertType.ERROR,
-			"Une erreur inconnue s'est produite, votre action n'a pas pu être menée à terme. MErci de réessayer.",
+			"Une erreur inconnue s'est produite, votre action n'a pas pu être menée à terme. Merci de réessayer.",
 			ButtonType.OK).showAndWait();
 	    }
 	}
-    }
-
-    private void loadData(List<String> data) throws FileFormatException {
-	if (data.size() == 0) {
-	    throw new FileFormatException();
-	}
-	Version version = new Version(data.get(0));
-	Loader loader = Loader.getLoader(version);
-	loader.load(this, data);
     }
 }

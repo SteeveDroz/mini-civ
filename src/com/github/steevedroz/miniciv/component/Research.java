@@ -54,6 +54,14 @@ public class Research extends Button {
 	return upgrade;
     }
 
+    public Research.State getState() {
+	return state;
+    }
+
+    public void setState(State state) {
+	this.state = state;
+    }
+
     public enum State {
 	UNAVAILABLE {
 	    @Override

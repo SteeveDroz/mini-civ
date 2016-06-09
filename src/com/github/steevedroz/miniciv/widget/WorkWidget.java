@@ -54,6 +54,7 @@ public class WorkWidget extends MiniCivWidget {
 	inventors.update(getFree());
 
 	free.setWorkers(getFree());
+	free.update(0);
     }
 
     public int totalWorkers() {
@@ -103,18 +104,18 @@ public class WorkWidget extends MiniCivWidget {
     }
 
     public void setMiners(int miners) {
-	this.woodcutters.setWorkers(miners);
+	this.miners.setWorkers(miners);
     }
 
     public void setAmbassadors(int ambassadors) {
-	this.woodcutters.setWorkers(ambassadors);
+	this.ambassadors.setWorkers(ambassadors);
     }
 
     public void setWarriors(int warriors) {
-	this.woodcutters.setWorkers(warriors);
+	this.warriors.setWorkers(warriors);
     }
 
     public void setInventors(int inventors) {
-	this.woodcutters.setWorkers(inventors);
+	this.inventors.setWorkers(inventors);
     }
 }
