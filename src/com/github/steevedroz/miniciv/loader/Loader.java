@@ -14,8 +14,8 @@ public abstract class Loader {
     }
 
     public static Loader getLoader(Version version) {
-	if (version.isAtLeast("v0.1-alpha")) {
-	    return new Loader0_1_alpha(version);
+	if (version.isAtLeast("v1.0")) {
+	    return new Loader1_0(version);
 	}
 	return null;
     }

@@ -11,8 +11,8 @@ import com.github.steevedroz.miniciv.Version;
 import com.github.steevedroz.miniciv.component.Research;
 import com.github.steevedroz.miniciv.component.Research.State;
 
-public class Loader0_1_alpha extends Loader {
-    protected Loader0_1_alpha(Version version) {
+public class Loader1_0 extends Loader {
+    protected Loader1_0(Version version) {
 	super(version);
     }
 
@@ -66,7 +66,7 @@ public class Loader0_1_alpha extends Loader {
     @Override
     public List<String> save(MiniCiv miniCiv) {
 	List<String> data = new ArrayList<String>();
-	data.add("v0.1-alpha");
+	data.add("v1.0");
 	data.add("inhabitants: " + miniCiv.getPopulation().getInhabitants());
 	data.add("houses: " + miniCiv.getBuilding().getHouses());
 	data.add("towers: " + miniCiv.getBuilding().getTowers());
