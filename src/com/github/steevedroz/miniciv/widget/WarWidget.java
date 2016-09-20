@@ -44,7 +44,8 @@ public class WarWidget extends MiniCivWidget {
 	if (lossCounter == 0) {
 	    loss.setText("");
 	}
-
+    }@Override
+    public void reinit() {
     }
 
     public double invasionEnvy() {

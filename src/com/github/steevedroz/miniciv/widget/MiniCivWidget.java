@@ -12,4 +12,5 @@ public abstract class MiniCivWidget extends GridPane {
     }
 
     public abstract void update();
+    public abstract void reinit();
 }

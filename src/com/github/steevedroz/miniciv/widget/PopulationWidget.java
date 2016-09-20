@@ -28,6 +28,11 @@ public class PopulationWidget extends MiniCivWidget {
 	increasePopulation(invite.getOverflow());
     }
 
+    @Override
+    public void reinit() {
+	inhabitants = 0;
+    }
+
     private void initializeComponents() {
 	Label title = new Label("Population");
 	title.setAlignment(Pos.CENTER);

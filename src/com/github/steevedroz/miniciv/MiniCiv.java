@@ -71,6 +71,18 @@ public class MiniCiv extends Scene {
 	});
     }
 
+    public void reinitAll() {
+	Platform.runLater(() -> {
+	    changeVillage.reinit();
+	    population.reinit();
+	    building.reinit();
+	    resources.reinit();
+	    work.reinit();
+	    war.reinit();
+	    laboratory.reinit();
+	});
+    }
+
     public ChangeVillageWidget getChangeVillage() {
 	return changeVillage;
     }

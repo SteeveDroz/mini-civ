@@ -38,6 +38,12 @@ public class LaboratoryWidget extends MiniCivWidget {
 	}
     }
 
+    @Override
+    public void reinit() {
+	researchPoints = 0;
+	forgetAllResearches();
+    }
+
     public void forgetAllResearches() {
 	for (Research research : researches) {
 	    research.forget();

@@ -38,6 +38,12 @@ public class ResourcesWidget extends MiniCivWidget {
 	autoWorkStone(0.1 * parent.getWork().getMiners() * parent.getLaboratory().getUpgrade(Type.STONE));
     }
 
+    @Override
+    public void reinit() {
+	wood = 0;
+	stone = 0;
+    }
+
     public boolean consumeWood(int amount) {
 	if (!hasWood(amount)) {
 	    return false;

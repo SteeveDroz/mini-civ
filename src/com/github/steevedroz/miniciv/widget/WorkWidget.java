@@ -57,6 +57,15 @@ public class WorkWidget extends MiniCivWidget {
 	free.update(0);
     }
 
+    @Override
+    public void reinit() {
+	woodcutters.setWorkers(0);
+	miners.setWorkers(0);
+	ambassadors.setWorkers(0);
+	warriors.setWorkers(0);
+	inventors.setWorkers(0);
+    }
+
     public int totalWorkers() {
 	int totalWorkers = 0;
 	totalWorkers += woodcutters.getWorkers();

@@ -42,6 +42,12 @@ public class BuildingWidget extends MiniCivWidget {
 	}
     }
 
+    @Override
+    public void reinit() {
+	houses = 0;
+	towers = 0;
+    }
+
     public int nextHousePrice() {
 	return (int) (Math.PI * houses * houses / 5 + 1);
     }
