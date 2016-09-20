@@ -50,10 +50,12 @@ public class ChangeVillageWidget extends MiniCivWidget {
 
     @Override
     public void update() {
+	// Nothing
     }
 
     @Override
     public void reinit() {
+	// Nothing
     }
 
     public int getPreviousInhabitants() {
