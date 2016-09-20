@@ -9,6 +9,7 @@ import java.util.TimerTask;
 
 import com.github.steevedroz.miniciv.loader.Loader;
 import com.github.steevedroz.miniciv.widget.BuildingWidget;
+import com.github.steevedroz.miniciv.widget.ChangeVillageWidget;
 import com.github.steevedroz.miniciv.widget.LaboratoryWidget;
 import com.github.steevedroz.miniciv.widget.PopulationWidget;
 import com.github.steevedroz.miniciv.widget.ResourcesWidget;
@@ -32,6 +33,7 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
 public class MiniCiv extends Scene {
+    private ChangeVillageWidget changeVillage;
     private PopulationWidget population;
     private BuildingWidget building;
     private ResourcesWidget resources;
@@ -59,6 +61,7 @@ public class MiniCiv extends Scene {
 
     public void updateAll() {
 	Platform.runLater(() -> {
+	    changeVillage.update();
 	    population.update();
 	    building.update();
 	    resources.update();
@@ -66,6 +69,10 @@ public class MiniCiv extends Scene {
 	    war.update();
 	    laboratory.update();
 	});
+    }
+
+    public ChangeVillageWidget getChangeVillage() {
+	return changeVillage;
     }
 
     public PopulationWidget getPopulation() {
@@ -94,6 +101,10 @@ public class MiniCiv extends Scene {
 
     private void initializeComponents() {
 	FlowPane flow = new FlowPane();
+
+	changeVillage = new ChangeVillageWidget(this);
+	changeVillage.getStyleClass().add("widget");
+	flow.getChildren().add(changeVillage);
 
 	population = new PopulationWidget(this);
 	population.getStyleClass().add("widget");
