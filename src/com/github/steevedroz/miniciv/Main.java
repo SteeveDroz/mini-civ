@@ -4,7 +4,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-    public static final String VERSION = "v0.1-alpha";
+    public static final String VERSION = "v1.1";
 
     @Override
     public void start(Stage primaryStage) {

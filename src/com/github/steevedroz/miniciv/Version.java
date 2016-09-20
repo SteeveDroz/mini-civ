@@ -32,12 +32,15 @@ public class Version implements Comparable<Version> {
 		hotfix = 0;
 	    }
 
-	    type = Version.Type.NONE;
-	    for (Version.Type versionType : Version.Type.values()) {
-		if (versionType.name().toLowerCase().equals(matcher.group(4).toLowerCase())) {
-		    type = versionType;
-		    break;
+	    try {
+		for (Version.Type versionType : Version.Type.values()) {
+		    if (versionType.name().toLowerCase().equals(matcher.group(4).toLowerCase())) {
+			type = versionType;
+			break;
+		    }
 		}
+	    } catch (NullPointerException e) {
+		type = Version.Type.NONE;
 	    }
 	}
     }
