@@ -31,8 +31,8 @@ public class ResourcesWidget extends MiniCivWidget {
 	woodLabel.setText("" + wood);
 	stoneLabel.setText("" + stone);
 
-	wood += chopWood.getOverflow();
-	stone += pickStone.getOverflow();
+	wood += chopWood.getOverflow() * Math.pow(2, parent.getChangeVillage().getLevel() - 1);
+	stone += pickStone.getOverflow() * Math.pow(2, parent.getChangeVillage().getLevel() - 1);
 
 	autoWorkWood(0.1 * parent.getWork().getWoodcutters() * parent.getLaboratory().getUpgrade(Type.WOOD));
 	autoWorkStone(0.1 * parent.getWork().getMiners() * parent.getLaboratory().getUpgrade(Type.STONE));
@@ -96,7 +96,7 @@ public class ResourcesWidget extends MiniCivWidget {
 	add(woodLabel, 0, 2);
 
 	chopWood = new ProgressButton("Couper du bois");
-	chopWood.setTooltip(new Tooltip("bûcherons / 10 + clic"));
+	chopWood.setTooltip(new Tooltip("bûcherons / 10 + clic, doublé à chaque niveau"));
 	add(chopWood, 0, 3);
 
 	add(new Label("Pierres"), 1, 1);
@@ -105,7 +105,7 @@ public class ResourcesWidget extends MiniCivWidget {
 	add(stoneLabel, 1, 2);
 
 	pickStone = new ProgressButton("Récolter des pierres");
-	pickStone.setTooltip(new Tooltip("mineurs / 10  + clic"));
+	pickStone.setTooltip(new Tooltip("mineurs / 10  + clic, doublé à chaque niveau"));
 	add(pickStone, 1, 3);
     }
 
