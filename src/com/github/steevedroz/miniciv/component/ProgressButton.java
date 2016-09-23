@@ -1,19 +1,26 @@
 package com.github.steevedroz.miniciv.component;
 
-import javafx.event.EventHandler;
+import java.io.IOException;
+
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
-public class ProgressButton extends GridPane {
+public class ProgressButton extends VBox {
     private static final double DEFAULT_FILLING_SPEED = 0.001;
 
     private boolean running;
     private double fillingSpeed;
+    private boolean automatic;
+    private String text;
 
+    @FXML
     private ProgressBar progress;
+    @FXML
     private Button button;
 
     public ProgressButton(String text) {
@@ -33,22 +40,38 @@ public class ProgressButton extends GridPane {
     }
 
     public ProgressButton(String text, double fillingSpeed, boolean automatic) {
+	super();
+
 	this.running = false;
 	this.fillingSpeed = fillingSpeed;
+	this.automatic = automatic;
+	this.text = text;
 
-	progress = new ProgressBar();
-	progress.setProgress(0.0);
-	add(progress, 0, 0);
-
-	button = new Button();
-	if (!automatic) {
-	    add(button, 0, 1);
-
-	    button.addEventHandler(MouseEvent.MOUSE_PRESSED, new Activator(true));
-	    button.addEventHandler(MouseEvent.MOUSE_RELEASED, new Activator(false));
-	    button.addEventHandler(MouseEvent.MOUSE_EXITED, new Activator(false));
-	    this.button.setText(text);
+	try {
+	    FXMLLoader loader = new FXMLLoader(
+		    getClass().getResource("/com/github/steevedroz/miniciv/fxml/ProgressButton.fxml"));
+	    loader.setRoot(this);
+	    loader.setController(this);
+	    loader.load();
+	} catch (IOException e) {
+	    e.printStackTrace();
 	}
+    }
+
+    @FXML
+    public void initialize() {
+	button.setText(text);
+	button.setVisible(!automatic);
+    }
+
+    @FXML
+    private void activate(MouseEvent event) {
+	this.running = true;
+    }
+
+    @FXML
+    private void deactivate(MouseEvent event) {
+	this.running = false;
     }
 
     public int getOverflow() {
@@ -75,18 +98,5 @@ public class ProgressButton extends GridPane {
     public void setTooltip(Tooltip tooltip) {
 	progress.setTooltip(tooltip);
 	button.setTooltip(tooltip);
-    }
-
-    private class Activator implements EventHandler<MouseEvent> {
-	private boolean running;
-
-	public Activator(boolean running) {
-	    this.running = running;
-	}
-
-	@Override
-	public void handle(MouseEvent event) {
-	    ProgressButton.this.running = running;
-	}
     }
 }
