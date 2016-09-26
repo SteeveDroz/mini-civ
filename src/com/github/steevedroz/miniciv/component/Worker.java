@@ -2,6 +2,8 @@ package com.github.steevedroz.miniciv.component;
 
 import java.io.IOException;
 
+import com.github.steevedroz.miniciv.Main;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,8 +35,7 @@ public class Worker extends HBox {
 	this.automatic = automatic;
 
 	try {
-	    FXMLLoader loader = new FXMLLoader(
-		    getClass().getResource("/com/github/steevedroz/miniciv/fxml/Worker.fxml"));
+	    FXMLLoader loader = new FXMLLoader(getClass().getResource(Main.PACKAGE + "/fxml/Worker.fxml"));
 	    loader.setRoot(this);
 	    loader.setController(this);
 	    loader.load();

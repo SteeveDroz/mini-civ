@@ -5,6 +5,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
     public static final String VERSION = "v1.1";
+    public static final String PACKAGE = "/com/github/steevedroz/miniciv";
 
     @Override
     public void start(Stage primaryStage) {

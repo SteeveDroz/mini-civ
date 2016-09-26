@@ -2,6 +2,8 @@ package com.github.steevedroz.miniciv.component;
 
 import java.io.IOException;
 
+import com.github.steevedroz.miniciv.Main;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -48,8 +50,7 @@ public class ProgressButton extends VBox {
 	this.text = text;
 
 	try {
-	    FXMLLoader loader = new FXMLLoader(
-		    getClass().getResource("/com/github/steevedroz/miniciv/fxml/ProgressButton.fxml"));
+	    FXMLLoader loader = new FXMLLoader(getClass().getResource(Main.PACKAGE + "/fxml/ProgressButton.fxml"));
 	    loader.setRoot(this);
 	    loader.setController(this);
 	    loader.load();
