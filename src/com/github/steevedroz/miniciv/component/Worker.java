@@ -1,44 +1,70 @@
 package com.github.steevedroz.miniciv.component;
 
+import java.io.IOException;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 
-public class Worker extends GridPane {
+public class Worker extends HBox {
+    private String name;
     private int workers;
-    private Label workersLabel;
-    private Button add;
-    private Button remove;
+    private boolean automatic;
+
+    @FXML
+    Label nameLabel;
+    @FXML
+    Label workersLabel;
+    @FXML
+    Button hireButton;
+    @FXML
+    Button fireButton;
 
     public Worker(String name) {
 	this(name, false);
     }
 
     public Worker(String name, boolean automatic) {
+	this.name = name;
 	this.workers = 0;
+	this.automatic = automatic;
 
-	add(new Label(name + " :"), 0, 0);
-
-	this.workersLabel = new Label("0");
-	add(workersLabel, 1, 0);
-
-	add = new Button("Engager");
-	remove = new Button("Licencier");
-
-	if (!automatic) {
-	    add.setOnAction(event -> workers++);
-
-	    add(add, 2, 0);
-
-	    remove.setOnAction(event -> workers--);
-	    add(remove, 3, 0);
+	try {
+	    FXMLLoader loader = new FXMLLoader(
+		    getClass().getResource("/com/github/steevedroz/miniciv/fxml/Worker.fxml"));
+	    loader.setRoot(this);
+	    loader.setController(this);
+	    loader.load();
+	} catch (IOException e) {
+	    e.printStackTrace();
 	}
+    }
+
+    @FXML
+    public void initialize() {
+	nameLabel.setText(name);
+	workersLabel.setText("0");
+	hireButton.setVisible(!automatic);
+	fireButton.setVisible(!automatic);
+    }
+
+    @FXML
+    private void hire(ActionEvent event) {
+	workers++;
+    }
+
+    @FXML
+    private void fire(ActionEvent event) {
+	workers = Math.max(workers - 1, 0);
     }
 
     public void update(int free) {
 	workersLabel.setText("" + workers);
-	add.setDisable(free <= 0);
-	remove.setDisable(workers <= 0);
+	hireButton.setDisable(free <= 0);
+	fireButton.setDisable(workers <= 0);
     }
 
     public void empty() {
